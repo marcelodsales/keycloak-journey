@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Mediterranean Digital</title>
+    <script type="importmap">
+      {
+        "imports": {
+          "keycloak-js": "/vendor/keycloak.js"
+        }
+      }
+    </script>
+    <link rel="modulepreload" href="/vendor/keycloak.js">
+  </head>
+  <body>
+    <div id="user" style="display: none;">
+      <button id="logout" type="button">Logout</button>
+      <button id="showIdToken" type="button">Show ID Token</button>
+      <button id="showAccessToken" type="button">Show Access Token</button>
+      <button id="refreshToken" type="button">Refresh</button>
+      <hr>
+      <h2 id="name"></h2>
+      <pre id="output"></pre>
+    </div>
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
