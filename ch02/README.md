@@ -1,4 +1,4 @@
-# Chapter 2 — Getting to Know Keycloak
+# Chapter 2 - Getting to Know Keycloak
 
 The first proof of concept. Daniel, the lead developer at Mediterranean Digital, sets up Keycloak locally and integrates the e-commerce platform using `keycloak-js`.
 
@@ -8,7 +8,7 @@ A JavaScript Single Page Application (SPA) that authenticates users through Keyc
 
 | Directory | Description |
 |-----------|-------------|
-| `spa/` | Mediterranean Digital — public OIDC client using `keycloak-js` |
+| `spa/` | Mediterranean Digital - public OIDC client using `keycloak-js` |
 
 ## Prerequisites
 
