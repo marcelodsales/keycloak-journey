@@ -29,7 +29,7 @@ Mediterranean Holdings is a fictional company with five subsidiaries: Digital, F
 
 **Target product:** Red Hat Build of Keycloak (RHBK) 26.6
 
-**Author:** Marcelo Sales, Red Hat
+**Author:** Marcelo Sales
 
 ## License
 
