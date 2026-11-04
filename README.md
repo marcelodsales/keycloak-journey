@@ -19,17 +19,17 @@ More chapters will be added as the book progresses. Each chapter directory has i
 | Keycloak | 26.6.x (community) | For local development. RHBK 26.6 for OpenShift (Chapter 4+). |
 | OpenJDK | 17, 21, or 25 | 21 recommended. Required for ZIP distribution. |
 | Node.js | 22+ LTS | For JavaScript examples. |
-| Docker or Podman | Latest | Optional - for container-based startup. |
+| Docker or Podman | Latest | Optional; for container-based startup. |
 
 Chapter-specific prerequisites and quick start instructions are in each chapter's README.
 
 ## About the Book
 
-The book follows Mediterranean Holdings - a company with five subsidiaries (Digital, Finance, Logistics, Corporate, Insurance) - on their journey from fragmented, homegrown authentication to a mature IAM platform built on Red Hat Build of Keycloak. Each chapter introduces Keycloak capabilities through the real problems the company faces, not as a feature reference.
+Mediterranean Holdings is a fictional company with five subsidiaries: Digital, Finance, Logistics, Corporate, and Insurance. The book follows their journey from fragmented, homegrown authentication to a mature IAM platform built on Red Hat Build of Keycloak. Each chapter introduces Keycloak capabilities through the real problems the company faces, not as a feature reference.
 
 **Target product:** Red Hat Build of Keycloak (RHBK) 26.6
 
-**Author:** Marcelo Sales - Red Hat
+**Author:** Marcelo Sales, Red Hat
 
 ## License
 
