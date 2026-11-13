@@ -8,7 +8,7 @@ oauth = OAuth(app)
 oauth.register(
     name="keycloak",
     client_id="med-finance",
-    client_secret="NWShZP1p7yZ9yC2KbGhhJR2zcMNwhXKQ",
+    client_secret="PASTE_THE_SECRET_HERE",
     server_metadata_url="http://localhost:8080/realms/mediterranean/.well-known/openid-configuration",
     client_kwargs={"scope": "openid profile email"},
 )
