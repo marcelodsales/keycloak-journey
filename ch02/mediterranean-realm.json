@@ -1,0 +1,143 @@
+{
+  "id": "mediterranean",
+  "realm": "mediterranean",
+  "displayName": "Mediterranean",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": false,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": false,
+  "verifyEmail": false,
+  "internationalizationEnabled": false,
+  "defaultSignatureAlgorithm": "RS256",
+  "roles": {
+    "realm": [
+      {
+        "name": "default-roles-mediterranean",
+        "description": "${role_default-roles}",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "offline_access",
+            "uma_authorization"
+          ],
+          "client": {
+            "account": [
+              "manage-account",
+              "view-profile"
+            ]
+          }
+        }
+      },
+      {
+        "name": "offline_access",
+        "description": "${role_offline-access}",
+        "composite": false
+      },
+      {
+        "name": "uma_authorization",
+        "description": "${role_uma_authorization}",
+        "composite": false
+      }
+    ],
+    "client": {
+      "account": [
+        {
+          "name": "manage-account",
+          "description": "${role_manage-account}",
+          "composite": true,
+          "composites": {
+            "client": {
+              "account": [
+                "manage-account-links"
+              ]
+            }
+          }
+        },
+        {
+          "name": "manage-account-links",
+          "description": "${role_manage-account-links}",
+          "composite": false
+        },
+        {
+          "name": "view-profile",
+          "description": "${role_view-profile}",
+          "composite": false
+        }
+      ]
+    }
+  },
+  "defaultRole": {
+    "name": "default-roles-mediterranean",
+    "description": "${role_default-roles}",
+    "composite": true
+  },
+  "users": [
+    {
+      "username": "daniel",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Daniel",
+      "lastName": "Test",
+      "email": "daniel@mediterranean.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-mediterranean"
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "med-digital",
+      "name": "Mediterranean Digital",
+      "enabled": true,
+      "publicClient": true,
+      "clientAuthenticatorType": "client-secret",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "redirectUris": [
+        "http://localhost:3000/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3000"
+      ],
+      "rootUrl": "",
+      "baseUrl": "",
+      "adminUrl": "",
+      "fullScopeAllowed": true,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    }
+  ],
+  "scopeMappings": [],
+  "clientScopeMappings": {},
+  "browserFlow": "browser",
+  "registrationFlow": "registration",
+  "directGrantFlow": "direct grant",
+  "resetCredentialsFlow": "reset credentials",
+  "clientAuthenticationFlow": "clients"
+}

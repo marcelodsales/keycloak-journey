@@ -1,0 +1,228 @@
+{
+  "id": "mediterranean-insurance",
+  "realm": "mediterranean-insurance",
+  "displayName": "Mediterranean Insurance",
+  "enabled": true,
+  "sslRequired": "all",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": false,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": false,
+  "verifyEmail": false,
+  "internationalizationEnabled": false,
+  "defaultSignatureAlgorithm": "RS256",
+  "loginTheme": "mediterranean-insurance",
+  "emailTheme": "mediterranean",
+  "eventsEnabled": true,
+  "eventsExpiration": 7776000,
+  "eventsListeners": [
+    "jboss-logging",
+    "mediterranean-event-logger"
+  ],
+  "enabledEventTypes": [],
+  "adminEventsEnabled": true,
+  "adminEventsDetailsEnabled": true,
+  "roles": {
+    "realm": [
+      {
+        "name": "default-roles-mediterranean-insurance",
+        "description": "${role_default-roles}",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "offline_access",
+            "uma_authorization"
+          ],
+          "client": {
+            "account": [
+              "manage-account",
+              "view-profile"
+            ]
+          }
+        }
+      },
+      {
+        "name": "offline_access",
+        "description": "${role_offline-access}",
+        "composite": false
+      },
+      {
+        "name": "uma_authorization",
+        "description": "${role_uma_authorization}",
+        "composite": false
+      },
+      {
+        "name": "employee",
+        "description": "Base role for all holding employees",
+        "composite": false
+      }
+    ],
+    "client": {
+      "account": [
+        {
+          "name": "manage-account",
+          "description": "${role_manage-account}",
+          "composite": true,
+          "composites": {
+            "client": {
+              "account": [
+                "manage-account-links"
+              ]
+            }
+          }
+        },
+        {
+          "name": "manage-account-links",
+          "description": "${role_manage-account-links}",
+          "composite": false
+        },
+        {
+          "name": "view-profile",
+          "description": "${role_view-profile}",
+          "composite": false
+        }
+      ]
+    }
+  },
+  "defaultRole": {
+    "name": "default-roles-mediterranean-insurance",
+    "description": "${role_default-roles}",
+    "composite": true
+  },
+  "users": [],
+  "clients": [
+    {
+      "clientId": "med-insurance",
+      "name": "Mediterranean Insurance",
+      "enabled": true,
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "med-insurance-secret",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "redirectUris": [
+        "https://insurance.mediterranean.com/*"
+      ],
+      "webOrigins": [
+        "https://insurance.mediterranean.com"
+      ],
+      "rootUrl": "https://insurance.mediterranean.com",
+      "fullScopeAllowed": true,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "clientId": "https://auth.mediterranean.com/realms/mediterranean",
+      "name": "Holding Realm Broker Client",
+      "enabled": true,
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "holding-broker-secret",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "redirectUris": [
+        "https://auth.mediterranean.com/realms/mediterranean/broker/insurance-realm/endpoint/*"
+      ],
+      "webOrigins": [],
+      "fullScopeAllowed": false,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    }
+  ],
+  "identityProviders": [
+    {
+      "alias": "holding-realm",
+      "displayName": "Mediterranean Holdings",
+      "providerId": "oidc",
+      "enabled": true,
+      "trustEmail": true,
+      "firstBrokerLoginFlowAlias": "Detect Existing Broker User",
+      "config": {
+        "syncMode": "IMPORT",
+        "clientId": "https://auth.mediterranean.com/realms/mediterranean-insurance",
+        "clientSecret": "insurance-broker-secret",
+        "authorizationUrl": "https://auth.mediterranean.com/realms/mediterranean/protocol/openid-connect/auth",
+        "tokenUrl": "https://auth.mediterranean.com/realms/mediterranean/protocol/openid-connect/token",
+        "jwksUrl": "https://auth.mediterranean.com/realms/mediterranean/protocol/openid-connect/certs",
+        "issuer": "https://auth.mediterranean.com/realms/mediterranean",
+        "useJwksUrl": "true",
+        "defaultScope": "openid profile email"
+      }
+    }
+  ],
+  "components": {
+    "org.keycloak.storage.UserStorageProvider": [
+      {
+        "name": "insurance-db",
+        "providerId": "insurance-policyholders",
+        "config": {
+          "jdbcUrl": ["jdbc:postgresql://insurance-db.insurance.svc:5432/policyholders"],
+          "dbUser": ["keycloak_readonly"],
+          "dbPassword": ["REPLACE_WITH_ACTUAL_PASSWORD"],
+          "priority": ["1"],
+          "enabled": ["true"]
+        }
+      }
+    ]
+  },
+  "browserFlow": "browser",
+  "registrationFlow": "registration",
+  "directGrantFlow": "direct grant",
+  "resetCredentialsFlow": "reset credentials",
+  "clientAuthenticationFlow": "clients",
+  "authenticationFlows": [
+    {
+      "alias": "Detect Existing Broker User",
+      "description": "First login flow for cross-realm brokering",
+      "providerId": "basic-flow",
+      "topLevel": true,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "authenticator": "idp-detect-existing-broker-user",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 10
+        },
+        {
+          "authenticator": "idp-auto-link",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 20
+        }
+      ]
+    }
+  ]
+}

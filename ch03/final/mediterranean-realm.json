@@ -1,0 +1,345 @@
+{
+  "id": "mediterranean",
+  "realm": "mediterranean",
+  "displayName": "Mediterranean",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": false,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": false,
+  "verifyEmail": false,
+  "internationalizationEnabled": false,
+  "defaultSignatureAlgorithm": "RS256",
+  "roles": {
+    "realm": [
+      {
+        "name": "default-roles-mediterranean",
+        "description": "${role_default-roles}",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "offline_access",
+            "uma_authorization"
+          ],
+          "client": {
+            "account": [
+              "manage-account",
+              "view-profile"
+            ]
+          }
+        }
+      },
+      {
+        "name": "offline_access",
+        "description": "${role_offline-access}",
+        "composite": false
+      },
+      {
+        "name": "uma_authorization",
+        "description": "${role_uma_authorization}",
+        "composite": false
+      }
+    ],
+    "client": {
+      "account": [
+        {
+          "name": "manage-account",
+          "description": "${role_manage-account}",
+          "composite": true,
+          "composites": {
+            "client": {
+              "account": [
+                "manage-account-links"
+              ]
+            }
+          }
+        },
+        {
+          "name": "manage-account-links",
+          "description": "${role_manage-account-links}",
+          "composite": false
+        },
+        {
+          "name": "view-profile",
+          "description": "${role_view-profile}",
+          "composite": false
+        }
+      ]
+    }
+  },
+  "defaultRole": {
+    "name": "default-roles-mediterranean",
+    "description": "${role_default-roles}",
+    "composite": true
+  },
+  "users": [
+    {
+      "username": "daniel",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Daniel",
+      "lastName": "Test",
+      "email": "daniel@mediterranean.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-mediterranean"
+      ]
+    },
+    {
+      "username": "camila",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Camila",
+      "lastName": "Test",
+      "email": "camila@mediterranean.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-mediterranean"
+      ]
+    },
+    {
+      "username": "sofia",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Sofia",
+      "lastName": "Test",
+      "email": "sofia@mediterranean.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-mediterranean"
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "med-digital",
+      "name": "Mediterranean Digital",
+      "enabled": true,
+      "publicClient": true,
+      "clientAuthenticatorType": "client-secret",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "redirectUris": [
+        "http://localhost:3000/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3000"
+      ],
+      "rootUrl": "",
+      "baseUrl": "",
+      "adminUrl": "",
+      "fullScopeAllowed": true,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "clientId": "digital-frontend",
+      "name": "Digital Frontend",
+      "enabled": true,
+      "publicClient": true,
+      "clientAuthenticatorType": "client-secret",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "redirectUris": [
+        "http://localhost:3000/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3000"
+      ],
+      "rootUrl": "",
+      "baseUrl": "",
+      "adminUrl": "",
+      "fullScopeAllowed": true,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ],
+      "protocolMappers": [
+        {
+          "name": "digital-backend-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "digital-backend",
+            "id.token.claim": "false",
+            "lightweight.claim": "false",
+            "access.token.claim": "true",
+            "introspection.token.claim": "true"
+          }
+        }
+      ]
+    },
+    {
+      "clientId": "digital-backend",
+      "name": "Digital Backend",
+      "enabled": true,
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "digital-backend-secret",
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "redirectUris": [],
+      "webOrigins": [],
+      "rootUrl": "",
+      "baseUrl": "",
+      "adminUrl": "",
+      "fullScopeAllowed": true,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "clientId": "med-finance",
+      "name": "Mediterranean Finance",
+      "enabled": true,
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "med-finance-secret",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "attributes": {
+        "post.logout.redirect.uris": "http://localhost:5001/*"
+      },
+      "redirectUris": [
+        "http://localhost:5001/auth"
+      ],
+      "webOrigins": [
+        "http://localhost:5001"
+      ],
+      "rootUrl": "",
+      "baseUrl": "",
+      "adminUrl": "",
+      "fullScopeAllowed": true,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "clientId": "med-logistics",
+      "name": "Mediterranean Logistics",
+      "enabled": true,
+      "protocol": "saml",
+      "frontchannelLogout": true,
+      "attributes": {
+        "saml.server.signature": "true",
+        "saml.server.signature.keyinfo.ext": "false",
+        "saml.assertion.signature": "true",
+        "saml.client.signature": "false",
+        "saml_name_id_format": "email",
+        "saml_force_name_id_format": "false",
+        "saml.authnstatement": "true",
+        "saml.multivalued.roles": "false",
+        "saml.force.post.binding": "true"
+      },
+      "redirectUris": [
+        "http://localhost:8082/login/saml2/sso/keycloak"
+      ],
+      "adminUrl": "http://localhost:8082/login/saml2/sso/keycloak",
+      "rootUrl": "",
+      "baseUrl": "",
+      "fullScopeAllowed": true,
+      "protocolMappers": [
+        {
+          "name": "firstName-mapper",
+          "protocol": "saml",
+          "protocolMapper": "saml-user-property-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "firstName",
+            "friendly.name": "",
+            "attribute.name": "firstName",
+            "attribute.nameformat": "Basic"
+          }
+        }
+      ]
+    }
+  ],
+  "scopeMappings": [],
+  "clientScopeMappings": {},
+  "browserFlow": "browser",
+  "registrationFlow": "registration",
+  "directGrantFlow": "direct grant",
+  "resetCredentialsFlow": "reset credentials",
+  "clientAuthenticationFlow": "clients"
+}

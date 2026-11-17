@@ -1,0 +1,763 @@
+{
+  "id": "mediterranean",
+  "realm": "mediterranean",
+  "displayName": "Mediterranean",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": false,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": false,
+  "verifyEmail": false,
+  "internationalizationEnabled": false,
+  "defaultSignatureAlgorithm": "RS256",
+  "loginTheme": "mediterranean",
+  "emailTheme": "mediterranean",
+  "eventsEnabled": true,
+  "eventsExpiration": 7776000,
+  "eventsListeners": [
+    "jboss-logging",
+    "mediterranean-event-logger"
+  ],
+  "enabledEventTypes": [],
+  "adminEventsEnabled": true,
+  "adminEventsDetailsEnabled": true,
+  "organizationsEnabled": true,
+  "organizations": [
+    {
+      "name": "Mediterranean Digital",
+      "alias": "med-digital",
+      "enabled": true,
+      "domains": [
+        {
+          "name": "digital.mediterranean.com",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "name": "Mediterranean Logistics",
+      "alias": "med-logistics",
+      "enabled": true,
+      "domains": [
+        {
+          "name": "logistics.mediterranean.com",
+          "verified": true
+        }
+      ]
+    },
+    {
+      "name": "Mediterranean Corporate",
+      "alias": "med-corporate",
+      "enabled": true,
+      "domains": [
+        {
+          "name": "corporate.mediterranean.com",
+          "verified": true
+        }
+      ]
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "default-roles-mediterranean",
+        "description": "${role_default-roles}",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "offline_access",
+            "uma_authorization"
+          ],
+          "client": {
+            "account": [
+              "manage-account",
+              "view-profile"
+            ]
+          }
+        }
+      },
+      {
+        "name": "offline_access",
+        "description": "${role_offline-access}",
+        "composite": false
+      },
+      {
+        "name": "uma_authorization",
+        "description": "${role_uma_authorization}",
+        "composite": false
+      },
+      {
+        "name": "employee",
+        "description": "Base role for all holding employees",
+        "composite": false
+      },
+      {
+        "name": "manager",
+        "description": "Management role, includes employee permissions",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "employee"
+          ]
+        }
+      },
+      {
+        "name": "admin",
+        "description": "Administrative role across the holding",
+        "composite": false
+      },
+      {
+        "name": "mfa-required",
+        "description": "Users with this role are required to use multi-factor authentication",
+        "composite": false
+      }
+    ],
+    "client": {
+      "account": [
+        {
+          "name": "manage-account",
+          "description": "${role_manage-account}",
+          "composite": true,
+          "composites": {
+            "client": {
+              "account": [
+                "manage-account-links"
+              ]
+            }
+          }
+        },
+        {
+          "name": "manage-account-links",
+          "description": "${role_manage-account-links}",
+          "composite": false
+        },
+        {
+          "name": "view-profile",
+          "description": "${role_view-profile}",
+          "composite": false
+        }
+      ],
+      "digital-frontend": [
+        {
+          "name": "catalog-editor",
+          "description": "Can edit the product catalog",
+          "composite": false
+        },
+        {
+          "name": "price-manager",
+          "description": "Can manage product prices",
+          "composite": false
+        }
+      ],
+      "med-logistics": [
+        {
+          "name": "shipment-tracker",
+          "description": "Can track shipments",
+          "composite": false
+        },
+        {
+          "name": "cost-analyst",
+          "description": "Can view cost reports",
+          "composite": false
+        }
+      ]
+    }
+  },
+  "defaultRole": {
+    "name": "default-roles-mediterranean",
+    "description": "${role_default-roles}",
+    "composite": true
+  },
+  "groups": [
+    {
+      "name": "mediterranean",
+      "path": "/mediterranean",
+      "subGroups": [
+        {
+          "name": "digital",
+          "path": "/mediterranean/digital",
+          "subGroups": [
+            {
+              "name": "engineering",
+              "path": "/mediterranean/digital/engineering"
+            },
+            {
+              "name": "operations",
+              "path": "/mediterranean/digital/operations"
+            }
+          ]
+        },
+        {
+          "name": "logistics",
+          "path": "/mediterranean/logistics",
+          "subGroups": [
+            {
+              "name": "warehouse",
+              "path": "/mediterranean/logistics/warehouse"
+            },
+            {
+              "name": "partners",
+              "path": "/mediterranean/logistics/partners"
+            }
+          ]
+        },
+        {
+          "name": "corporate",
+          "path": "/mediterranean/corporate",
+          "subGroups": []
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "daniel",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Daniel",
+      "lastName": "Test",
+      "email": "daniel@digital.mediterranean.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-mediterranean",
+        "manager"
+      ],
+      "clientRoles": {
+        "digital-frontend": [
+          "catalog-editor",
+          "price-manager"
+        ]
+      },
+      "groups": [
+        "/mediterranean/digital/engineering"
+      ]
+    },
+    {
+      "username": "sofia",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Sofia",
+      "lastName": "Test",
+      "email": "sofia@logistics.mediterranean.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-mediterranean",
+        "employee"
+      ],
+      "clientRoles": {
+        "med-logistics": [
+          "shipment-tracker",
+          "cost-analyst"
+        ]
+      },
+      "groups": [
+        "/mediterranean/logistics"
+      ]
+    },
+    {
+      "username": "lucas",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Lucas",
+      "lastName": "Test",
+      "email": "lucas@corporate.mediterranean.com",
+      "attributes": {
+        "department": [
+          "Corporate"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "default-roles-mediterranean",
+        "employee"
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "digital-frontend",
+      "name": "Digital Frontend",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "digital-frontend-secret",
+      "clientAuthenticatorType": "client-secret",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "redirectUris": [
+        "http://localhost:3000/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3000"
+      ],
+      "fullScopeAllowed": false,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt",
+        "organization"
+      ],
+      "protocolMappers": [
+        {
+          "name": "digital-backend-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "included.client.audience": "digital-backend",
+            "id.token.claim": "false",
+            "lightweight.claim": "false",
+            "access.token.claim": "true",
+            "introspection.token.claim": "true"
+          }
+        }
+      ]
+    },
+    {
+      "clientId": "digital-backend",
+      "name": "Digital Backend",
+      "enabled": true,
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "digital-backend-secret",
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "protocol": "openid-connect",
+      "redirectUris": [],
+      "webOrigins": [],
+      "fullScopeAllowed": false,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "clientId": "med-logistics",
+      "name": "Mediterranean Logistics",
+      "enabled": true,
+      "protocol": "saml",
+      "frontchannelLogout": true,
+      "attributes": {
+        "saml.server.signature": "true",
+        "saml.server.signature.keyinfo.ext": "false",
+        "saml.assertion.signature": "true",
+        "saml.client.signature": "false",
+        "saml_name_id_format": "email",
+        "saml_force_name_id_format": "false",
+        "saml.authnstatement": "true",
+        "saml.multivalued.roles": "false",
+        "saml.force.post.binding": "true"
+      },
+      "redirectUris": [
+        "http://localhost:8082/login/saml2/sso/keycloak"
+      ],
+      "adminUrl": "http://localhost:8082/login/saml2/sso/keycloak",
+      "fullScopeAllowed": true,
+      "protocolMappers": [
+        {
+          "name": "firstName-mapper",
+          "protocol": "saml",
+          "protocolMapper": "saml-user-property-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "firstName",
+            "friendly.name": "",
+            "attribute.name": "firstName",
+            "attribute.nameformat": "Basic"
+          }
+        }
+      ]
+    },
+    {
+      "clientId": "med-corporate",
+      "name": "Mediterranean Corporate",
+      "enabled": true,
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "med-corporate-secret",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "redirectUris": [
+        "https://corporate.apps.mediterranean.internal/*"
+      ],
+      "webOrigins": [
+        "https://corporate.apps.mediterranean.internal"
+      ],
+      "fullScopeAllowed": true,
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "profile",
+        "roles",
+        "basic",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt",
+        "organization"
+      ]
+    }
+  ],
+  "identityProviders": [
+    {
+      "alias": "google",
+      "providerId": "google",
+      "enabled": true,
+      "trustEmail": true,
+      "config": {
+        "syncMode": "IMPORT",
+        "clientId": "REPLACE_WITH_GOOGLE_CLIENT_ID",
+        "clientSecret": "REPLACE_WITH_GOOGLE_CLIENT_SECRET",
+        "defaultScope": "openid profile email"
+      }
+    },
+    {
+      "alias": "partner-entraid",
+      "displayName": "Partner Login (Entra ID)",
+      "providerId": "oidc",
+      "enabled": true,
+      "trustEmail": false,
+      "config": {
+        "syncMode": "IMPORT",
+        "clientId": "REPLACE_WITH_ENTRA_CLIENT_ID",
+        "clientSecret": "REPLACE_WITH_ENTRA_CLIENT_SECRET",
+        "authorizationUrl": "https://login.microsoftonline.com/REPLACE_WITH_TENANT_ID/oauth2/v2.0/authorize",
+        "tokenUrl": "https://login.microsoftonline.com/REPLACE_WITH_TENANT_ID/oauth2/v2.0/token",
+        "userInfoUrl": "https://graph.microsoft.com/oidc/userinfo",
+        "jwksUrl": "https://login.microsoftonline.com/REPLACE_WITH_TENANT_ID/discovery/v2.0/keys",
+        "issuer": "https://login.microsoftonline.com/REPLACE_WITH_TENANT_ID/v2.0",
+        "useJwksUrl": "true",
+        "defaultScope": "openid profile email"
+      }
+    },
+    {
+      "alias": "finance-realm",
+      "displayName": "Mediterranean Finance",
+      "providerId": "oidc",
+      "enabled": true,
+      "trustEmail": true,
+      "firstBrokerLoginFlowAlias": "Detect Existing Broker User",
+      "config": {
+        "syncMode": "IMPORT",
+        "clientId": "https://auth.mediterranean.com/realms/mediterranean",
+        "clientSecret": "holding-broker-secret",
+        "authorizationUrl": "https://auth.mediterranean.com/realms/mediterranean-finance/protocol/openid-connect/auth",
+        "tokenUrl": "https://auth.mediterranean.com/realms/mediterranean-finance/protocol/openid-connect/token",
+        "jwksUrl": "https://auth.mediterranean.com/realms/mediterranean-finance/protocol/openid-connect/certs",
+        "issuer": "https://auth.mediterranean.com/realms/mediterranean-finance",
+        "useJwksUrl": "true",
+        "defaultScope": "openid profile email"
+      }
+    },
+    {
+      "alias": "insurance-realm",
+      "displayName": "Mediterranean Insurance",
+      "providerId": "oidc",
+      "enabled": true,
+      "trustEmail": true,
+      "firstBrokerLoginFlowAlias": "Detect Existing Broker User",
+      "config": {
+        "syncMode": "IMPORT",
+        "clientId": "https://auth.mediterranean.com/realms/mediterranean",
+        "clientSecret": "holding-broker-secret",
+        "authorizationUrl": "https://auth.mediterranean.com/realms/mediterranean-insurance/protocol/openid-connect/auth",
+        "tokenUrl": "https://auth.mediterranean.com/realms/mediterranean-insurance/protocol/openid-connect/token",
+        "jwksUrl": "https://auth.mediterranean.com/realms/mediterranean-insurance/protocol/openid-connect/certs",
+        "issuer": "https://auth.mediterranean.com/realms/mediterranean-insurance",
+        "useJwksUrl": "true",
+        "defaultScope": "openid profile email"
+      }
+    }
+  ],
+  "components": {
+    "org.keycloak.storage.UserStorageProvider": [
+      {
+        "name": "corporate-ad",
+        "providerId": "ldap",
+        "subComponents": {
+          "org.keycloak.storage.ldap.mappers.LDAPStorageMapper": [
+            {
+              "name": "username",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["sAMAccountName"],
+                "is.mandatory.in.ldap": ["true"],
+                "read.only": ["true"],
+                "always.read.value.from.ldap": ["true"],
+                "user.model.attribute": ["username"]
+              }
+            },
+            {
+              "name": "email",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["mail"],
+                "is.mandatory.in.ldap": ["false"],
+                "read.only": ["true"],
+                "always.read.value.from.ldap": ["true"],
+                "user.model.attribute": ["email"]
+              }
+            },
+            {
+              "name": "first name",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["givenName"],
+                "is.mandatory.in.ldap": ["true"],
+                "read.only": ["true"],
+                "always.read.value.from.ldap": ["true"],
+                "user.model.attribute": ["firstName"]
+              }
+            },
+            {
+              "name": "last name",
+              "providerId": "user-attribute-ldap-mapper",
+              "config": {
+                "ldap.attribute": ["sn"],
+                "is.mandatory.in.ldap": ["true"],
+                "read.only": ["true"],
+                "always.read.value.from.ldap": ["true"],
+                "user.model.attribute": ["lastName"]
+              }
+            },
+            {
+              "name": "MSAD account controls",
+              "providerId": "msad-user-account-control-mapper",
+              "config": {}
+            },
+            {
+              "name": "corporate-employee-role",
+              "providerId": "hardcoded-ldap-role-mapper",
+              "config": {
+                "role": ["employee"]
+              }
+            }
+          ]
+        },
+        "config": {
+          "enabled": ["true"],
+          "vendor": ["ad"],
+          "connectionUrl": ["ldaps://ad.mediterranean.internal:636"],
+          "bindDn": ["cn=keycloak-svc,ou=ServiceAccounts,dc=mediterranean,dc=internal"],
+          "bindCredential": ["REPLACE_WITH_BIND_PASSWORD"],
+          "editMode": ["READ_ONLY"],
+          "usersDn": ["ou=Users,dc=mediterranean,dc=internal"],
+          "usernameLDAPAttribute": ["sAMAccountName"],
+          "rdnLDAPAttribute": ["cn"],
+          "uuidLDAPAttribute": ["objectGUID"],
+          "userObjectClasses": ["person, organizationalPerson, user"],
+          "importEnabled": ["true"],
+          "syncRegistrations": ["false"],
+          "authType": ["simple"],
+          "searchScope": ["2"],
+          "pagination": ["true"],
+          "connectionPooling": ["true"],
+          "useTruststoreSpi": ["always"],
+          "fullSyncPeriod": ["86400"],
+          "changedSyncPeriod": ["3600"],
+          "cachePolicy": ["DEFAULT"],
+          "batchSizeForSync": ["1000"]
+        }
+      }
+    ]
+  },
+  "browserFlow": "mediterranean-browser-stepup",
+  "registrationFlow": "registration",
+  "directGrantFlow": "direct grant",
+  "resetCredentialsFlow": "reset credentials",
+  "clientAuthenticationFlow": "clients",
+  "authenticationFlows": [
+    {
+      "alias": "mediterranean-browser-stepup",
+      "description": "Step-up authentication flow with LoA levels",
+      "providerId": "basic-flow",
+      "topLevel": true,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "authenticator": "auth-cookie",
+          "authenticatorFlow": false,
+          "requirement": "ALTERNATIVE",
+          "priority": 10
+        },
+        {
+          "authenticator": "identity-provider-redirector",
+          "authenticatorFlow": false,
+          "requirement": "ALTERNATIVE",
+          "priority": 20
+        },
+        {
+          "authenticatorFlow": true,
+          "requirement": "ALTERNATIVE",
+          "priority": 30,
+          "flowAlias": "mediterranean-stepup-forms"
+        }
+      ]
+    },
+    {
+      "alias": "mediterranean-stepup-forms",
+      "description": "Username, password, and step-up OTP forms",
+      "providerId": "basic-flow",
+      "topLevel": false,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "authenticatorFlow": true,
+          "requirement": "CONDITIONAL",
+          "priority": 10,
+          "flowAlias": "1st Condition Flow"
+        },
+        {
+          "authenticatorFlow": true,
+          "requirement": "CONDITIONAL",
+          "priority": 20,
+          "flowAlias": "2nd Condition Flow"
+        }
+      ]
+    },
+    {
+      "alias": "1st Condition Flow",
+      "providerId": "basic-flow",
+      "topLevel": false,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "authenticatorConfig": "Level 1",
+          "authenticator": "conditional-level-of-authentication",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 10
+        },
+        {
+          "authenticator": "auth-username-password-form",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 20
+        }
+      ]
+    },
+    {
+      "alias": "2nd Condition Flow",
+      "providerId": "basic-flow",
+      "topLevel": false,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "authenticatorConfig": "Level 2",
+          "authenticator": "conditional-level-of-authentication",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 10
+        },
+        {
+          "authenticator": "auth-otp-form",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 20
+        }
+      ]
+    },
+    {
+      "alias": "Detect Existing Broker User",
+      "description": "First login flow for cross-realm brokering",
+      "providerId": "basic-flow",
+      "topLevel": true,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "authenticator": "idp-detect-existing-broker-user",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 10
+        },
+        {
+          "authenticator": "idp-auto-link",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 20
+        }
+      ]
+    }
+  ],
+  "authenticatorConfig": [
+    {
+      "alias": "Level 1",
+      "config": {
+        "loa-condition-level": "1",
+        "loa-max-age": "36000"
+      }
+    },
+    {
+      "alias": "Level 2",
+      "config": {
+        "loa-condition-level": "2",
+        "loa-max-age": "0"
+      }
+    }
+  ],
+  "attributes": {
+    "acr.loa.map": "{\"bronze\": 1, \"silver\": 2}"
+  },
+  "scopeMappings": [
+    {
+      "client": "digital-frontend",
+      "roles": [
+        "employee",
+        "manager"
+      ]
+    }
+  ]
+}
