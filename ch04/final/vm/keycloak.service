@@ -1,0 +1,16 @@
+[Unit]
+Description=Keycloak Authorization Server
+After=network.target postgresql.service
+
+[Service]
+Type=exec
+User=keycloak
+Group=keycloak
+EnvironmentFile=/opt/keycloak/conf/keycloak.env
+ExecStart=/opt/keycloak/bin/kc.sh start --optimized
+LimitNOFILE=65536
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
