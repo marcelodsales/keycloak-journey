@@ -1,0 +1,74 @@
+import os
+from flask import Flask, redirect, session, url_for, render_template
+from authlib.integrations.flask_client import OAuth
+from werkzeug.middleware.proxy_fix import ProxyFix
+
+app = Flask(__name__)
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
+app.config["PREFERRED_URL_SCHEME"] = os.environ.get("PREFERRED_URL_SCHEME", "https")
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "finance-dev-secret-key")
+
+keycloak_url = os.environ.get("KEYCLOAK_URL", "https://keycloak.apps.mediterranean.internal")
+keycloak_realm = os.environ.get("KEYCLOAK_REALM", "mediterranean")
+client_id = os.environ.get("CLIENT_ID", "med-finance")
+client_secret = os.environ.get("CLIENT_SECRET", "med-finance-secret")
+
+oauth = OAuth(app)
+oauth.register(
+    name="keycloak",
+    client_id=client_id,
+    client_secret=client_secret,
+    server_metadata_url=f"{keycloak_url}/realms/{keycloak_realm}/.well-known/openid-configuration",
+    client_kwargs={"scope": "openid profile email"},
+)
+
+
+@app.route("/")
+def index():
+    user = session.get("user")
+    return render_template("index.html", user=user)
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    redirect_uri = url_for("auth", _external=True)
+    return oauth.keycloak.authorize_redirect(redirect_uri)
+
+
+@app.route("/auth")
+def auth():
+    token = oauth.keycloak.authorize_access_token()
+    session["user"] = token.get("userinfo")
+    session["id_token"] = token.get("id_token")
+    return redirect("/")
+
+
+@app.route("/reports")
+def reports():
+    user = session.get("user")
+    if not user:
+        return redirect(url_for("login"))
+    data = [
+        {"id": "FIN-2024-001", "description": "Q4 Revenue Summary", "status": "Final"},
+        {"id": "FIN-2024-002", "description": "Annual Tax Filing", "status": "Draft"},
+        {"id": "FIN-2024-003", "description": "Budget Forecast 2025", "status": "Under Review"},
+    ]
+    return render_template("reports.html", user=user, reports=data)
+
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    id_token = session.pop("id_token", None)
+    session.pop("user", None)
+    if id_token:
+        metadata = oauth.keycloak.load_server_metadata()
+        return redirect(
+            metadata["end_session_endpoint"]
+            + "?id_token_hint=" + id_token
+            + "&post_logout_redirect_uri=" + url_for("index", _external=True)
+        )
+    return redirect("/")
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5001)), debug=True)

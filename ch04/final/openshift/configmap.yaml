@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keycloak-config
+  namespace: mediterranean-dev
+data:
+  KEYCLOAK_URL: "https://rhbk-dev.apps.ocp4.masales.cloud"
+  KEYCLOAK_REALM: "mediterranean"

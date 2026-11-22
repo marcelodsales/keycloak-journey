@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: digital-frontend
+  namespace: mediterranean-dev
+  labels:
+    app: digital-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: digital-frontend
+  template:
+    metadata:
+      labels:
+        app: digital-frontend
+    spec:
+      containers:
+        - name: digital-frontend
+          image: image-registry.openshift-image-registry.svc:5000/mediterranean-dev/digital-frontend:latest
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: keycloak-config
+          env:
+            - name: KEYCLOAK_CLIENT_ID
+              value: "med-digital-frontend"
+            - name: BACKEND_URL
+              value: "https://digital-api.apps.ocp4.masales.cloud"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: digital-frontend
+  namespace: mediterranean-dev
+  labels:
+    app: digital-frontend
+spec:
+  selector:
+    app: digital-frontend
+  ports:
+    - port: 3000
+      targetPort: 3000
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: digital-frontend
+  namespace: mediterranean-dev
+  labels:
+    app: digital-frontend
+spec:
+  host: digital.apps.ocp4.masales.cloud
+  to:
+    kind: Service
+    name: digital-frontend
+  port:
+    targetPort: 3000
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

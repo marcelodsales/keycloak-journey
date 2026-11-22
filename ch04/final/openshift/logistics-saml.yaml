@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logistics-saml
+  namespace: mediterranean-dev
+  labels:
+    app: logistics-saml
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logistics-saml
+  template:
+    metadata:
+      labels:
+        app: logistics-saml
+    spec:
+      containers:
+        - name: logistics-saml
+          image: image-registry.openshift-image-registry.svc:5000/mediterranean-dev/logistics-saml:latest
+          ports:
+            - containerPort: 8082
+          env:
+            - name: KEYCLOAK_SAML_METADATA
+              value: "https://rhbk-dev.apps.ocp4.masales.cloud/realms/mediterranean/protocol/saml/descriptor"
+            - name: PORT
+              value: "8082"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logistics-saml
+  namespace: mediterranean-dev
+  labels:
+    app: logistics-saml
+spec:
+  selector:
+    app: logistics-saml
+  ports:
+    - port: 8082
+      targetPort: 8082
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: logistics-saml
+  namespace: mediterranean-dev
+  labels:
+    app: logistics-saml
+spec:
+  host: logistics.apps.ocp4.masales.cloud
+  to:
+    kind: Service
+    name: logistics-saml
+  port:
+    targetPort: 8082
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

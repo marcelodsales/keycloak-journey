@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finance-flask
+  namespace: mediterranean-dev
+  labels:
+    app: finance-flask
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: finance-flask
+  template:
+    metadata:
+      labels:
+        app: finance-flask
+    spec:
+      containers:
+        - name: finance-flask
+          image: image-registry.openshift-image-registry.svc:5000/mediterranean-dev/finance-flask:latest
+          ports:
+            - containerPort: 5001
+          envFrom:
+            - configMapRef:
+                name: keycloak-config
+            - secretRef:
+                name: med-finance-secret
+          env:
+            - name: CLIENT_ID
+              value: "med-finance"
+            - name: PORT
+              value: "5001"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: finance-flask
+  namespace: mediterranean-dev
+  labels:
+    app: finance-flask
+spec:
+  selector:
+    app: finance-flask
+  ports:
+    - port: 5001
+      targetPort: 5001
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: finance-flask
+  namespace: mediterranean-dev
+  labels:
+    app: finance-flask
+spec:
+  host: finance.apps.ocp4.masales.cloud
+  to:
+    kind: Service
+    name: finance-flask
+  port:
+    targetPort: 5001
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

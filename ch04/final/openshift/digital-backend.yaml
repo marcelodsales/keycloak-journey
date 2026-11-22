@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: digital-backend
+  namespace: mediterranean-dev
+  labels:
+    app: digital-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: digital-backend
+  template:
+    metadata:
+      labels:
+        app: digital-backend
+    spec:
+      containers:
+        - name: digital-backend
+          image: image-registry.openshift-image-registry.svc:5000/mediterranean-dev/digital-backend:latest
+          ports:
+            - containerPort: 8081
+          env:
+            - name: QUARKUS_OIDC_AUTH_SERVER_URL
+              value: "https://rhbk-dev.apps.ocp4.masales.cloud/realms/mediterranean"
+            - name: QUARKUS_OIDC_CLIENT_ID
+              value: "med-digital-backend"
+            - name: QUARKUS_OIDC_TOKEN_AUDIENCE
+              value: "med-digital-backend"
+            - name: QUARKUS_HTTP_CORS_ORIGINS
+              value: "https://digital.apps.ocp4.masales.cloud,http://localhost:3000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: digital-backend
+  namespace: mediterranean-dev
+  labels:
+    app: digital-backend
+spec:
+  selector:
+    app: digital-backend
+  ports:
+    - port: 8081
+      targetPort: 8081
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: digital-backend
+  namespace: mediterranean-dev
+  labels:
+    app: digital-backend
+spec:
+  host: digital-api.apps.ocp4.masales.cloud
+  to:
+    kind: Service
+    name: digital-backend
+  port:
+    targetPort: 8081
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

@@ -1,6 +1,6 @@
 [Unit]
-Description=Keycloak Authorization Server
-After=network.target postgresql.service
+Description=Keycloak Server
+After=network.target
 
 [Service]
 Type=exec
