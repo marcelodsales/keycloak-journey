@@ -1,0 +1,20 @@
+server:
+  port: ${PORT:8082}
+
+spring:
+  security:
+    saml2:
+      relyingparty:
+        registration:
+          keycloak:
+            entity-id: med-logistics
+            assertingparty:
+              metadata-uri: ${KEYCLOAK_SAML_METADATA:http://localhost:8080/realms/mediterranean/protocol/saml/descriptor}
+              singlesignon:
+                sign-request: false
+            acs:
+              location: "{baseUrl}/login/saml2/sso/{registrationId}"
+
+logging:
+  level:
+    org.springframework.security: INFO

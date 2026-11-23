@@ -1,0 +1,11 @@
+{
+  "name": "digital-frontend",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "keycloak-js": "^26.2.5"
+  }
+}

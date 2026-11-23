@@ -1,5 +1,4 @@
 {
-  "id": "mediterranean",
   "realm": "mediterranean",
   "displayName": "Mediterranean",
   "enabled": true,
@@ -11,451 +10,145 @@
   "editUsernameAllowed": false,
   "bruteForceProtected": false,
   "verifyEmail": false,
-  "internationalizationEnabled": false,
-  "defaultSignatureAlgorithm": "RS256",
+  "accessTokenLifespan": 300,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 36000,
   "roles": {
     "realm": [
-      {
-        "name": "default-roles-mediterranean",
-        "description": "${role_default-roles}",
-        "composite": true,
-        "composites": {
-          "realm": [
-            "offline_access",
-            "uma_authorization"
-          ],
-          "client": {
-            "account": [
-              "manage-account",
-              "view-profile"
-            ]
-          }
-        }
-      },
-      {
-        "name": "offline_access",
-        "description": "${role_offline-access}",
-        "composite": false
-      },
-      {
-        "name": "uma_authorization",
-        "description": "${role_uma_authorization}",
-        "composite": false
-      },
-      {
-        "name": "employee",
-        "description": "Base role for all holding employees",
-        "composite": false
-      },
+      { "name": "employee", "description": "Base role for all holding employees" },
       {
         "name": "manager",
-        "description": "Management role, includes employee permissions",
+        "description": "Management role across the holding",
         "composite": true,
-        "composites": {
-          "realm": [
-            "employee"
-          ]
-        }
+        "composites": { "realm": [ "employee" ] }
       },
-      {
-        "name": "admin",
-        "description": "Administrative role across the holding",
-        "composite": false
-      }
+      { "name": "admin", "description": "Administrative role across the holding" }
     ],
     "client": {
-      "account": [
-        {
-          "name": "manage-account",
-          "description": "${role_manage-account}",
-          "composite": true,
-          "composites": {
-            "client": {
-              "account": [
-                "manage-account-links"
-              ]
-            }
-          }
-        },
-        {
-          "name": "manage-account-links",
-          "description": "${role_manage-account-links}",
-          "composite": false
-        },
-        {
-          "name": "view-profile",
-          "description": "${role_view-profile}",
-          "composite": false
-        }
-      ],
-      "digital-frontend": [
-        {
-          "name": "catalog-editor",
-          "description": "Can edit the product catalog",
-          "composite": false
-        },
-        {
-          "name": "price-manager",
-          "description": "Can manage product prices",
-          "composite": false
-        }
+      "med-digital-frontend": [
+        { "name": "catalog-editor", "description": "Can edit the product catalog" },
+        { "name": "price-manager", "description": "Can manage product prices" }
       ],
       "med-finance": [
-        {
-          "name": "report-viewer",
-          "description": "Can view financial reports",
-          "composite": false
-        },
-        {
-          "name": "report-editor",
-          "description": "Can edit financial reports",
-          "composite": false
-        }
+        { "name": "report-viewer", "description": "Can view financial reports" },
+        { "name": "report-editor", "description": "Can edit financial reports" }
       ],
       "med-logistics": [
-        {
-          "name": "shipment-tracker",
-          "description": "Can track shipments",
-          "composite": false
-        },
-        {
-          "name": "cost-analyst",
-          "description": "Can view cost reports",
-          "composite": false
-        }
+        { "name": "shipment-tracker", "description": "Can track shipments" },
+        { "name": "cost-analyst", "description": "Can view cost reports" }
+      ],
+      "med-health": [
+        { "name": "doctor", "description": "Medical doctor with access to medical records" },
+        { "name": "nurse", "description": "Nurse with access to appointments" },
+        { "name": "clinic-admin", "description": "Clinic administrator with access to staff schedules" }
       ]
     }
-  },
-  "defaultRole": {
-    "name": "default-roles-mediterranean",
-    "description": "${role_default-roles}",
-    "composite": true
   },
   "groups": [
     {
       "name": "mediterranean",
-      "path": "/mediterranean",
       "subGroups": [
         {
           "name": "digital",
-          "path": "/mediterranean/digital",
-          "subGroups": [
-            {
-              "name": "engineering",
-              "path": "/mediterranean/digital/engineering",
-              "subGroups": [],
-              "attributes": {},
-              "realmRoles": [],
-              "clientRoles": {}
-            },
-            {
-              "name": "operations",
-              "path": "/mediterranean/digital/operations",
-              "subGroups": [],
-              "attributes": {},
-              "realmRoles": [],
-              "clientRoles": {}
-            }
-          ],
-          "attributes": {},
-          "realmRoles": [],
-          "clientRoles": {}
+          "subGroups": [ { "name": "engineering" }, { "name": "operations" } ]
         },
         {
           "name": "finance",
-          "path": "/mediterranean/finance",
-          "subGroups": [
-            {
-              "name": "analysts",
-              "path": "/mediterranean/finance/analysts",
-              "subGroups": [],
-              "attributes": {},
-              "realmRoles": [],
-              "clientRoles": {
-                "med-finance": [
-                  "report-viewer",
-                  "report-editor"
-                ]
-              }
-            },
-            {
-              "name": "managers",
-              "path": "/mediterranean/finance/managers",
-              "subGroups": [],
-              "attributes": {},
-              "realmRoles": [
-                "manager"
-              ],
-              "clientRoles": {
-                "med-finance": [
-                  "report-viewer",
-                  "report-editor"
-                ]
-              }
-            }
-          ],
-          "attributes": {},
-          "realmRoles": [
-            "employee"
-          ],
-          "clientRoles": {}
+          "subGroups": [ { "name": "analysts" }, { "name": "managers" } ]
         },
         {
           "name": "logistics",
-          "path": "/mediterranean/logistics",
-          "subGroups": [
-            {
-              "name": "warehouse",
-              "path": "/mediterranean/logistics/warehouse",
-              "subGroups": [],
-              "attributes": {},
-              "realmRoles": [],
-              "clientRoles": {
-                "med-logistics": [
-                  "shipment-tracker"
-                ]
-              }
-            },
-            {
-              "name": "partners",
-              "path": "/mediterranean/logistics/partners",
-              "subGroups": [],
-              "attributes": {},
-              "realmRoles": [],
-              "clientRoles": {}
-            }
-          ],
-          "attributes": {},
-          "realmRoles": [
-            "employee"
-          ],
-          "clientRoles": {}
+          "subGroups": [ { "name": "warehouse" }, { "name": "partners" }, { "name": "managers" } ]
         },
+        { "name": "corporate" },
         {
-          "name": "corporate",
-          "path": "/mediterranean/corporate",
-          "subGroups": [],
-          "attributes": {},
-          "realmRoles": [
-            "employee"
-          ],
-          "clientRoles": {}
+          "name": "health",
+          "subGroups": [ { "name": "doctors" }, { "name": "nurses" }, { "name": "admin" } ]
         }
-      ],
-      "attributes": {},
-      "realmRoles": [],
-      "clientRoles": {}
+      ]
     }
   ],
+  "defaultGroups": [ "/mediterranean" ],
   "users": [
     {
       "username": "daniel",
-      "enabled": true,
-      "emailVerified": true,
-      "firstName": "Daniel",
-      "lastName": "Test",
+      "enabled": true, "emailVerified": true,
+      "firstName": "Daniel", "lastName": "Test",
       "email": "daniel@mediterranean.com",
-      "credentials": [
-        {
-          "type": "password",
-          "value": "password123",
-          "temporary": false
-        }
-      ],
-      "realmRoles": [
-        "default-roles-mediterranean",
-        "manager"
-      ],
-      "clientRoles": {
-        "digital-frontend": [
-          "catalog-editor",
-          "price-manager"
-        ]
-      },
-      "groups": [
-        "/mediterranean/digital/engineering"
-      ]
+      "credentials": [ { "type": "password", "value": "password123", "temporary": false } ],
+      "realmRoles": [ "default-roles-mediterranean", "employee" ],
+      "clientRoles": { "med-digital-frontend": [ "catalog-editor", "price-manager" ] },
+      "groups": [ "/mediterranean/digital/engineering" ]
     },
     {
       "username": "camila",
-      "enabled": true,
-      "emailVerified": true,
-      "firstName": "Camila",
-      "lastName": "Test",
+      "enabled": true, "emailVerified": true,
+      "firstName": "Camila", "lastName": "Test",
       "email": "camila@mediterranean.com",
-      "credentials": [
-        {
-          "type": "password",
-          "value": "password123",
-          "temporary": false
-        }
-      ],
-      "realmRoles": [
-        "default-roles-mediterranean",
-        "employee"
-      ],
-      "clientRoles": {},
-      "groups": [
-        "/mediterranean/digital/engineering"
-      ]
+      "credentials": [ { "type": "password", "value": "password123", "temporary": false } ],
+      "realmRoles": [ "default-roles-mediterranean", "employee" ],
+      "clientRoles": { "med-finance": [ "report-viewer", "report-editor" ] },
+      "groups": [ "/mediterranean/finance/analysts" ]
     },
     {
       "username": "sofia",
-      "enabled": true,
-      "emailVerified": true,
-      "firstName": "Sofia",
-      "lastName": "Test",
+      "enabled": true, "emailVerified": true,
+      "firstName": "Sofia", "lastName": "Test",
       "email": "sofia@mediterranean.com",
-      "credentials": [
-        {
-          "type": "password",
-          "value": "password123",
-          "temporary": false
-        }
-      ],
-      "realmRoles": [
-        "default-roles-mediterranean",
-        "employee"
-      ],
-      "clientRoles": {
-        "med-logistics": [
-          "shipment-tracker",
-          "cost-analyst"
-        ]
-      },
-      "groups": [
-        "/mediterranean/logistics"
-      ]
+      "credentials": [ { "type": "password", "value": "password123", "temporary": false } ],
+      "realmRoles": [ "default-roles-mediterranean", "employee" ],
+      "clientRoles": { "med-logistics": [ "shipment-tracker" ] },
+      "groups": [ "/mediterranean/logistics/warehouse" ]
     },
     {
       "username": "ana",
-      "enabled": true,
-      "emailVerified": true,
-      "firstName": "Ana",
-      "lastName": "Test",
+      "enabled": true, "emailVerified": true,
+      "firstName": "Ana", "lastName": "Test",
       "email": "ana@mediterranean.com",
-      "credentials": [
-        {
-          "type": "password",
-          "value": "password123",
-          "temporary": false
-        }
-      ],
-      "realmRoles": [
-        "default-roles-mediterranean",
-        "employee"
-      ],
-      "clientRoles": {
-        "med-finance": [
-          "report-viewer",
-          "report-editor"
-        ]
-      },
-      "groups": [
-        "/mediterranean/finance/analysts"
-      ]
+      "credentials": [ { "type": "password", "value": "password123", "temporary": false } ],
+      "realmRoles": [ "default-roles-mediterranean", "employee", "manager" ],
+      "clientRoles": { "med-finance": [ "report-viewer" ] },
+      "groups": [ "/mediterranean/digital/operations" ]
     },
     {
-      "username": "service-account-digital-backend",
+      "username": "sara",
+      "enabled": true, "emailVerified": true,
+      "firstName": "Sara", "lastName": "Test",
+      "email": "sara@mediterranean.com",
+      "credentials": [ { "type": "password", "value": "password123", "temporary": false } ],
+      "realmRoles": [ "default-roles-mediterranean", "employee" ],
+      "clientRoles": { "med-health": [ "doctor", "clinic-admin" ] },
+      "groups": [ "/mediterranean/health/doctors" ]
+    },
+    {
+      "username": "service-account-med-digital-backend",
       "enabled": true,
-      "emailVerified": false,
-      "serviceAccountClientId": "digital-backend",
-      "realmRoles": [
-        "default-roles-mediterranean"
-      ],
-      "clientRoles": {
-        "med-finance": [
-          "report-viewer"
-        ]
-      },
-      "groups": []
+      "serviceAccountClientId": "med-digital-backend",
+      "realmRoles": [ "default-roles-mediterranean" ],
+      "clientRoles": { "med-finance": [ "report-viewer" ] }
     }
   ],
   "clients": [
     {
-      "clientId": "med-digital",
-      "name": "Mediterranean Digital",
+      "clientId": "med-digital-frontend",
+      "name": "Mediterranean Digital Frontend",
       "enabled": true,
       "publicClient": true,
-      "clientAuthenticatorType": "client-secret",
       "standardFlowEnabled": true,
-      "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": false,
-      "serviceAccountsEnabled": false,
-      "protocol": "openid-connect",
-      "redirectUris": [
-        "http://localhost:3000/*"
-      ],
-      "webOrigins": [
-        "http://localhost:3000"
-      ],
-      "rootUrl": "",
-      "baseUrl": "",
-      "adminUrl": "",
-      "fullScopeAllowed": true,
-      "defaultClientScopes": [
-        "web-origins",
-        "acr",
-        "profile",
-        "roles",
-        "basic",
-        "email"
-      ],
-      "optionalClientScopes": [
-        "address",
-        "phone",
-        "offline_access",
-        "microprofile-jwt"
-      ]
-    },
-    {
-      "clientId": "digital-frontend",
-      "name": "Digital Frontend",
-      "enabled": true,
-      "publicClient": true,
-      "clientAuthenticatorType": "client-secret",
-      "standardFlowEnabled": true,
-      "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": true,
-      "serviceAccountsEnabled": false,
       "protocol": "openid-connect",
-      "attributes": {
-        "pkce.code.challenge.method": "S256"
-      },
-      "redirectUris": [
-        "http://localhost:3000/*"
-      ],
-      "webOrigins": [
-        "http://localhost:3000"
-      ],
-      "rootUrl": "",
-      "baseUrl": "",
-      "adminUrl": "",
+      "redirectUris": [ "http://localhost:3000/*" ],
+      "webOrigins": [ "http://localhost:3000" ],
       "fullScopeAllowed": false,
-      "defaultClientScopes": [
-        "web-origins",
-        "acr",
-        "profile",
-        "roles",
-        "basic",
-        "email"
-      ],
-      "optionalClientScopes": [
-        "address",
-        "phone",
-        "offline_access",
-        "microprofile-jwt"
-      ],
+      "attributes": { "pkce.code.challenge.method": "S256" },
       "protocolMappers": [
         {
-          "name": "digital-backend-audience",
+          "name": "audience-backend",
           "protocol": "openid-connect",
           "protocolMapper": "oidc-audience-mapper",
-          "consentRequired": false,
           "config": {
-            "included.client.audience": "digital-backend",
+            "included.client.audience": "med-digital-backend",
             "id.token.claim": "false",
-            "lightweight.claim": "false",
             "access.token.claim": "true",
             "introspection.token.claim": "true"
           }
@@ -463,141 +156,70 @@
       ]
     },
     {
-      "clientId": "digital-backend",
-      "name": "Digital Backend",
+      "clientId": "med-digital-backend",
+      "name": "Mediterranean Digital Backend",
       "enabled": true,
       "publicClient": false,
-      "clientAuthenticatorType": "client-secret",
-      "secret": "digital-backend-secret",
+      "secret": "med-digital-backend-secret",
       "standardFlowEnabled": false,
-      "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": false,
       "serviceAccountsEnabled": true,
-      "protocol": "openid-connect",
-      "redirectUris": [],
-      "webOrigins": [],
-      "rootUrl": "",
-      "baseUrl": "",
-      "adminUrl": "",
-      "fullScopeAllowed": false,
-      "defaultClientScopes": [
-        "web-origins",
-        "acr",
-        "profile",
-        "roles",
-        "basic",
-        "email"
-      ],
-      "optionalClientScopes": [
-        "address",
-        "phone",
-        "offline_access",
-        "microprofile-jwt"
-      ]
+      "protocol": "openid-connect"
     },
     {
       "clientId": "med-finance",
       "name": "Mediterranean Finance",
       "enabled": true,
       "publicClient": false,
-      "clientAuthenticatorType": "client-secret",
       "secret": "med-finance-secret",
       "standardFlowEnabled": true,
-      "implicitFlowEnabled": false,
       "directAccessGrantsEnabled": false,
-      "serviceAccountsEnabled": false,
       "protocol": "openid-connect",
-      "redirectUris": [
-        "http://localhost:5001/auth"
-      ],
-      "webOrigins": [
-        "http://localhost:5001"
-      ],
-      "rootUrl": "",
-      "baseUrl": "",
-      "adminUrl": "",
-      "fullScopeAllowed": true,
-      "attributes": {
-        "post.logout.redirect.uris": "http://localhost:5001/*"
-      },
-      "defaultClientScopes": [
-        "web-origins",
-        "acr",
-        "profile",
-        "roles",
-        "basic",
-        "email"
-      ],
-      "optionalClientScopes": [
-        "address",
-        "phone",
-        "offline_access",
-        "microprofile-jwt"
-      ]
+      "redirectUris": [ "http://localhost:5001/auth" ],
+      "webOrigins": [ "http://localhost:5001" ]
     },
     {
       "clientId": "med-logistics",
       "name": "Mediterranean Logistics",
       "enabled": true,
+      "publicClient": false,
+      "secret": "med-logistics-secret",
       "protocol": "saml",
       "frontchannelLogout": true,
+      "redirectUris": [ "http://localhost:8082/login/saml2/sso/keycloak" ],
       "attributes": {
-        "saml.server.signature": "true",
-        "saml.server.signature.keyinfo.ext": "false",
         "saml.assertion.signature": "true",
-        "saml.client.signature": "false",
+        "saml.force.post.binding": "true",
         "saml_name_id_format": "email",
-        "saml_force_name_id_format": "false",
-        "saml.authnstatement": "true",
-        "saml.multivalued.roles": "false",
-        "saml.force.post.binding": "true"
+        "saml.server.signature": "true",
+        "saml.client.signature": "false",
+        "saml_assertion_consumer_url_post": "http://localhost:8082/login/saml2/sso/keycloak"
       },
-      "redirectUris": [
-        "http://localhost:8082/login/saml2/sso/keycloak"
-      ],
-      "adminUrl": "http://localhost:8082/login/saml2/sso/keycloak",
-      "rootUrl": "",
-      "baseUrl": "",
-      "fullScopeAllowed": true,
       "protocolMappers": [
         {
-          "name": "firstName-mapper",
+          "name": "groups",
           "protocol": "saml",
-          "protocolMapper": "saml-user-property-mapper",
-          "consentRequired": false,
+          "protocolMapper": "saml-group-membership-mapper",
           "config": {
-            "user.attribute": "firstName",
-            "friendly.name": "",
-            "attribute.name": "firstName",
-            "attribute.nameformat": "Basic"
+            "attribute.nameformat": "Basic",
+            "full.path": "true",
+            "attribute.name": "member-of",
+            "single": "true"
           }
         }
       ]
-    }
-  ],
-  "scopeMappings": [
+    },
     {
-      "client": "digital-frontend",
-      "roles": [
-        "employee",
-        "manager"
-      ]
+      "clientId": "med-health",
+      "name": "Mediterranean Health",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "med-health-secret",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "protocol": "openid-connect",
+      "redirectUris": [ "http://localhost:5002/*" ],
+      "webOrigins": [ "http://localhost:5002" ]
     }
-  ],
-  "clientScopeMappings": {
-    "digital-frontend": [
-      {
-        "client": "digital-frontend",
-        "roles": [
-          "catalog-editor",
-          "price-manager"
-        ]
-      }
-    ]
-  },
-  "browserFlow": "browser",
-  "registrationFlow": "registration",
-  "directGrantFlow": "direct grant",
-  "resetCredentialsFlow": "reset credentials",
-  "clientAuthenticationFlow": "clients"
+  ]
 }
