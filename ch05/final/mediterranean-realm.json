@@ -79,7 +79,7 @@
       "realmRoles": [ "default-roles-mediterranean", "employee" ],
       "clientRoles": {
         "med-digital-frontend": [ "catalog-editor", "price-manager" ],
-        "realm-management": [ "manage-clients", "manage-users", "view-realm", "query-users", "query-clients", "query-groups" ]
+        "realm-management": [ "realm-admin" ]
       },
       "groups": [ "/mediterranean/digital/engineering" ]
     },
@@ -92,7 +92,7 @@
       "realmRoles": [ "default-roles-mediterranean", "employee" ],
       "clientRoles": {
         "med-finance": [ "report-viewer", "report-editor" ],
-        "realm-management": [ "manage-clients", "manage-users", "view-realm", "query-users", "query-clients", "query-groups" ]
+        "realm-management": [ "realm-admin" ]
       },
       "groups": [ "/mediterranean/finance/analysts" ]
     },
@@ -105,7 +105,7 @@
       "realmRoles": [ "default-roles-mediterranean", "employee" ],
       "clientRoles": {
         "med-logistics": [ "shipment-tracker" ],
-        "realm-management": [ "manage-clients", "manage-users", "view-realm", "query-users", "query-clients", "query-groups" ]
+        "realm-management": [ "realm-admin" ]
       },
       "groups": [ "/mediterranean/logistics/warehouse" ]
     },
@@ -128,7 +128,7 @@
       "realmRoles": [ "default-roles-mediterranean", "employee" ],
       "clientRoles": {
         "med-health": [ "doctor", "clinic-admin" ],
-        "realm-management": [ "manage-clients", "manage-users", "view-realm", "query-users", "query-clients", "query-groups" ]
+        "realm-management": [ "realm-admin" ]
       },
       "groups": [ "/mediterranean/health/doctors" ]
     },

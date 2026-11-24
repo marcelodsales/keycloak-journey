@@ -13,7 +13,7 @@ function renderProducts(products) {
   productTable.innerHTML = `
     <table class="table table-striped table-hover mb-0">
       <thead class="table-light">
-        <tr><th>#</th><th>Name</th><th>Category</th><th>Price</th></tr>
+        <tr><th>#</th><th>Name</th><th>Category</th><th>Price</th><th></th></tr>
       </thead>
       <tbody>
         ${products.map(p => `
@@ -22,6 +22,7 @@ function renderProducts(products) {
             <td>${p.name}</td>
             <td><span class="badge bg-secondary">${p.category}</span></td>
             <td>$${p.price.toFixed(2)}</td>
+            <td><button class="btn btn-outline-secondary btn-sm edit-btn" style="display:none">Edit</button></td>
           </tr>
         `).join('')}
       </tbody>

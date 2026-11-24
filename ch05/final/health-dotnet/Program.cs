@@ -18,12 +18,12 @@ builder.Services.AddAuthentication(options =>
     options.ClientSecret = builder.Configuration["Keycloak:ClientSecret"];
     options.ResponseType = OpenIdConnectResponseType.Code;
     options.SaveTokens = true;
-    options.GetClaimsFromUserInfoEndpoint = true;
     options.RequireHttpsMetadata = false;
     options.Scope.Add("openid");
     options.Scope.Add("profile");
-    options.TokenValidationParameters.RoleClaimType = "roles";
     options.PushedAuthorizationBehavior = PushedAuthorizationBehavior.Disable;
+    options.MapInboundClaims = false;
+    options.TokenValidationParameters.RoleClaimType = "roles";
 });
 
 builder.Services.AddTransient<IClaimsTransformation, KeycloakClaimsTransformation>();
