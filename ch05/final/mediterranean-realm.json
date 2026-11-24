@@ -77,7 +77,10 @@
       "email": "daniel@mediterranean.com",
       "credentials": [ { "type": "password", "value": "password123", "temporary": false } ],
       "realmRoles": [ "default-roles-mediterranean", "employee" ],
-      "clientRoles": { "med-digital-frontend": [ "catalog-editor", "price-manager" ] },
+      "clientRoles": {
+        "med-digital-frontend": [ "catalog-editor", "price-manager" ],
+        "realm-management": [ "manage-clients", "manage-users", "view-realm", "query-users", "query-clients", "query-groups" ]
+      },
       "groups": [ "/mediterranean/digital/engineering" ]
     },
     {
@@ -87,7 +90,10 @@
       "email": "camila@mediterranean.com",
       "credentials": [ { "type": "password", "value": "password123", "temporary": false } ],
       "realmRoles": [ "default-roles-mediterranean", "employee" ],
-      "clientRoles": { "med-finance": [ "report-viewer", "report-editor" ] },
+      "clientRoles": {
+        "med-finance": [ "report-viewer", "report-editor" ],
+        "realm-management": [ "manage-clients", "manage-users", "view-realm", "query-users", "query-clients", "query-groups" ]
+      },
       "groups": [ "/mediterranean/finance/analysts" ]
     },
     {
@@ -97,7 +103,10 @@
       "email": "sofia@mediterranean.com",
       "credentials": [ { "type": "password", "value": "password123", "temporary": false } ],
       "realmRoles": [ "default-roles-mediterranean", "employee" ],
-      "clientRoles": { "med-logistics": [ "shipment-tracker" ] },
+      "clientRoles": {
+        "med-logistics": [ "shipment-tracker" ],
+        "realm-management": [ "manage-clients", "manage-users", "view-realm", "query-users", "query-clients", "query-groups" ]
+      },
       "groups": [ "/mediterranean/logistics/warehouse" ]
     },
     {
@@ -117,7 +126,10 @@
       "email": "sara@mediterranean.com",
       "credentials": [ { "type": "password", "value": "password123", "temporary": false } ],
       "realmRoles": [ "default-roles-mediterranean", "employee" ],
-      "clientRoles": { "med-health": [ "doctor", "clinic-admin" ] },
+      "clientRoles": {
+        "med-health": [ "doctor", "clinic-admin" ],
+        "realm-management": [ "manage-clients", "manage-users", "view-realm", "query-users", "query-clients", "query-groups" ]
+      },
       "groups": [ "/mediterranean/health/doctors" ]
     },
     {
